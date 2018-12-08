@@ -79,9 +79,9 @@ public class HuffProcessor {
 		HuffNode current = root;
 		while (true) { 
 			if (root.myLeft == null && root.myRight == null) {
-				if (current.myValue == PSEUDO_EOF) break; 
-				out.writeBits(1, 1 +current.myValue);
-				current = root; 
+//				if (current.myValue == PSEUDO_EOF) break; 
+				out.writeBits(1, 1 +current.myValue); 
+				break;
 			}
 			else {
 				out.writeBits(1,0);
