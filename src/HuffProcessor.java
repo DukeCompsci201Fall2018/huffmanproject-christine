@@ -51,7 +51,9 @@ public class HuffProcessor {
 		writeCompressedBits(codings,in,out);
 		out.close();
 	}
-	
+	/*
+	 * create the encodings for each eight-bit character chunk
+	 */
 	private String[] makeCodingsFromTree(HuffNode root) {
 		// TODO Auto-generated method stub
 		return null;
@@ -61,29 +63,33 @@ public class HuffProcessor {
 		// TODO Auto-generated method stub
 		
 	}
-
+/*
+ * Write the magic number and the 
+ * tree to the beginning/header of the compressed
+ */
 	private void writeCompressedBits(String[] codings, BitInputStream in, BitOutputStream out) {
 		// TODO Auto-generated method stub
 		
 	}
-
+/*
+ * Create Huffman trie/tree used to create encodings
+ */
 	private HuffNode makeTreeFromCounts(int[] counts) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	private int[] readForCounts(BitInputStream in) {
+		int bits;
 		int[] arr = new int[ALPH_SIZE + 1];
 		arr[PSEUDO_EOF] = 1; 
-		int bits = in.readBits(BITS_PER_WORD);
+		while (true) {
+		bits = in.readBits(BITS_PER_WORD);
 		if (bits == -1) throw new HuffException("failed to read bits.");
-		if (bits == 0) { 
-			arr[0] ++; 
-			readForCounts(in);
-		} 
+		if (bits == 0) arr[0] ++;   
 		else arr[bits] ++;
-		return arr;
 		}
+	}
 	
 	/**
 	 * Decompresses a file. Output file must be identical bit-by-bit to the
