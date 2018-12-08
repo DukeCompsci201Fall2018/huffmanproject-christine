@@ -78,7 +78,8 @@ public class HuffProcessor {
 	private void writeHeader(HuffNode root, BitOutputStream out) {
 		HuffNode current = root;  
 			if (root.myLeft == null && root.myRight == null) { 
-				out.writeBits(1, 1 +current.myValue);
+				out.writeBits(1, 1);
+				out.writeBits(BITS_PER_INT, current.myValue);
 				current = root; 
 			}
 			else {
@@ -92,8 +93,9 @@ public class HuffProcessor {
  * tree to the beginning/header of the compressed
  */
 	private void writeCompressedBits(String[] codings, BitInputStream in, BitOutputStream out) {
-		for (int i=0; i<codings.length; i++) {
+		for (int i=0; i<codings.length; i++) { 
 			String code = codings[i]; 
+			in.readBits(code.length());
 			out.writeBits(code.length(), Integer.parseInt(code,2));
 		}
 		String code = codings[PSEUDO_EOF];
