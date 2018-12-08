@@ -80,11 +80,11 @@ public class HuffProcessor {
 		while (true) { 
 			if (root.myLeft == null && root.myRight == null) {
 				if (current.myValue == PSEUDO_EOF) break; 
-				out.writeBits(1, current.myValue);
+				out.writeBits(1, 1);
 				current = root; 
 			}
 			else {
-				out.writeBits(0, current.myValue);
+				out.writeBits(1,0);
 				writeHeader(root.myLeft,out);
 				writeHeader(root.myRight,out); 
 			}
