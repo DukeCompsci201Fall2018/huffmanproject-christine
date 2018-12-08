@@ -42,13 +42,49 @@ public class HuffProcessor {
 	 */
 	public void compress(BitInputStream in, BitOutputStream out){
 
-		while (true){
-			int val = in.readBits(BITS_PER_WORD);
-			if (val == -1) break;
-			out.writeBits(BITS_PER_WORD, val);
-		}
+		int[] counts = readForCounts(in);
+		HuffNode root = makeTreeFromCounts(counts);
+		String[] codings = makeCodingsFromTree(root);
+		out.writeBits(BITS_PER_INT, HUFF_TREE);
+		writeHeader(root,out);
+		in.reset();
+		writeCompressedBits(codings,in,out);
 		out.close();
 	}
+	
+	private String[] makeCodingsFromTree(HuffNode root) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private void writeHeader(HuffNode root, BitOutputStream out) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void writeCompressedBits(String[] codings, BitInputStream in, BitOutputStream out) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private HuffNode makeTreeFromCounts(int[] counts) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private int[] readForCounts(BitInputStream in) {
+		int[] arr = new int[ALPH_SIZE + 1];
+		arr[PSEUDO_EOF] = 1; 
+		int bits = in.readBits(BITS_PER_WORD);
+		if (bits == -1) throw new HuffException("failed to read bits.");
+		if (bits == 0) { 
+			arr[0] ++; 
+			readForCounts(in);
+		} 
+		else arr[bits] ++;
+		return arr;
+		}
+	
 	/**
 	 * Decompresses a file. Output file must be identical bit-by-bit to the
 	 * original.
@@ -63,12 +99,7 @@ public class HuffProcessor {
 		int bits = in.readBits(BITS_PER_INT);
 		if (bits != HUFF_TREE) { 
 			throw new HuffException("illegal header starts with " +bits);
-		}
-//		while (true){
-//		int val = in.readBits(BITS_PER_WORD);
-//		if (val == -1) break;
-//		out.writeBits(BITS_PER_WORD, val);
-//	}
+		} 
 		HuffNode root = readTreeHeader(in);
 		readCompressedBits(root, in, out);
 		out.close();
