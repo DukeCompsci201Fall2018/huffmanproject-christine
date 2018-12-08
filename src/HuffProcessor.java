@@ -1,3 +1,4 @@
+import java.util.PriorityQueue;
 
 /**
  * Although this class has a history of several years,
@@ -75,8 +76,18 @@ public class HuffProcessor {
  * Create Huffman trie/tree used to create encodings
  */
 	private HuffNode makeTreeFromCounts(int[] counts) {
-		// TODO Auto-generated method stub
-		return null;
+		PriorityQueue<HuffNode> pq = new PriorityQueue<>();
+		for (int i=0; i<counts.length;i++) {
+			if (counts[i] > 0 || counts[i] == PSEUDO_EOF) pq.add(new HuffNode(i, counts[i], null, null));
+		}
+		while (pq.size() > 1) {
+			HuffNode left = pq.remove();
+			HuffNode right = pq.remove();
+			HuffNode t = new HuffNode(0, left.myWeight+right.myWeight,pq.remove(),pq.remove());
+			pq.add(t);
+		}
+		HuffNode root = pq.remove();
+		return root;
 	}
 
 	private int[] readForCounts(BitInputStream in) {
