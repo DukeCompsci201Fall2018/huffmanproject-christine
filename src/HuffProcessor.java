@@ -75,7 +75,7 @@ public class HuffProcessor {
 		out.close();
 	}
 	
-	public HuffNode readTreeHeader(BitInputStream in) {
+	private HuffNode readTreeHeader(BitInputStream in) {
 		int bit = in.readBits(1);
 		HuffNode root = new HuffNode(bit,0, null,null);
 		if (bit == -1) throw new HuffException("illegal header starts with " +bit);
@@ -92,7 +92,7 @@ public class HuffProcessor {
 		    
 
 	
-	public void readCompressedBits(HuffNode root, BitInputStream in, BitOutputStream out) {
+	private void readCompressedBits(HuffNode root, BitInputStream in, BitOutputStream out) {
 		
 	}
 }
