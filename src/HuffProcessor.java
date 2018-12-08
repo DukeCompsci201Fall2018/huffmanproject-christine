@@ -78,10 +78,11 @@ public class HuffProcessor {
 	private void writeHeader(HuffNode root, BitOutputStream out) {
 		HuffNode current = root;
 		while (true) { 
+			if (root == null) break;
 			if (root.myLeft == null && root.myRight == null) {
-//				if (current.myValue == PSEUDO_EOF) break; 
-				out.writeBits(1, 1 +current.myValue); 
-				break;
+				if (current.myValue == PSEUDO_EOF) break; 
+				out.writeBits(1, 1 +current.myValue);
+				current = root; 
 			}
 			else {
 				out.writeBits(1,0);
