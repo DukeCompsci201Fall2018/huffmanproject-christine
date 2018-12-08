@@ -75,12 +75,11 @@ public class HuffProcessor {
  * Writing the Tree
  */
 	private void writeHeader(HuffNode root, BitOutputStream out) {
-		int bits;
 		HuffNode current = root;
 		while (true) { 
 			if (root.myLeft == null && root.myRight == null) {
 				if (current.myValue == PSEUDO_EOF) break; 
-				out.writeBits(1, 1);
+				out.writeBits(1, 1 +current.myValue);
 				current = root; 
 			}
 			else {
