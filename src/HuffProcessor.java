@@ -103,6 +103,8 @@ public class HuffProcessor {
 //			bits = in.readBits(PSEUDO_EOF);
 //			String code = codings[bits];
 //			out.writeBits(code.length(), Integer.parseInt(code, 2));
+		String code = codings[PSEUDO_EOF];
+		out.writeBits(code.length(), Integer.parseInt(code,2));
 		}
 /*
  * Create Huffman trie/tree used to create encodings
