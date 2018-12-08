@@ -85,10 +85,10 @@ public class HuffProcessor {
 		arr[PSEUDO_EOF] = 1; 
 		while (true) {
 		bits = in.readBits(BITS_PER_WORD);
-		if (bits == -1) throw new HuffException("failed to read bits.");
-		if (bits == 0) arr[0] ++;   
-		else arr[bits] ++;
+		if (bits == -1) break; 
+		arr[bits] ++;
 		}
+		return arr;
 	}
 	
 	/**
