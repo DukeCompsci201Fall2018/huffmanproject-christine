@@ -98,7 +98,7 @@ public class HuffProcessor {
 			}
 			else {
 				if (bits == 0) current = current.myLeft;
-				else current=current.myRight;
+				else if (bits == 1) current=current.myRight;
 			}
 			if (current.myLeft == null && current.myRight == null) {
 				if (current.myValue == PSEUDO_EOF) break;
