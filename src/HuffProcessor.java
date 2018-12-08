@@ -76,13 +76,12 @@ public class HuffProcessor {
 	}
 	
 	private HuffNode readTreeHeader(BitInputStream in) {
-		int bit = in.readBits(1);
-		HuffNode root = new HuffNode(bit,0, null,null);
-		if (bit == -1) throw new HuffException("illegal header starts with " +bit);
-		if (bit == 0) {
-		    root.myLeft = readTreeHeader(in);
-		    root.myRight = readTreeHeader(in);
-		    return new HuffNode(0,0,root.myLeft,root.myRight);
+		int bit = in.readBits(1); 
+		if (bit == -1) throw new HuffException("failed to read bits.");
+		if (bit == 0) { 
+			HuffNode left = readTreeHeader(in);
+			HuffNode right = readTreeHeader(in);
+		    return new HuffNode(0,0,left,right);
 		}
 		else {
 		    int value = in.readBits(BITS_PER_WORD+1);
