@@ -56,21 +56,51 @@ public class HuffProcessor {
 	 * create the encodings for each eight-bit character chunk
 	 */
 	private String[] makeCodingsFromTree(HuffNode root) {
-		// TODO Auto-generated method stub
-		return null;
+		String[] encodings = new String[ALPH_SIZE + 1];
+		codingHelper(root, "", encodings);
+		return encodings;
 	}
 
+	private void codingHelper(HuffNode root, String string, String[] encodings) {
+		if (root.myLeft == null && root.myRight == null) {
+			encodings[root.myValue] = string;
+			return;
+		}
+		else {
+			codingHelper(root.myLeft, string + "0", encodings);
+			codingHelper(root.myRight, string + "1", encodings);
+		}
+	}
+/*
+ * Writing the Tree
+ */
 	private void writeHeader(HuffNode root, BitOutputStream out) {
-		// TODO Auto-generated method stub
-		
+		int bits;
+		HuffNode current = root;
+		while (true) { 
+			if (root.myLeft == null && root.myRight == null) {
+				if (current.myValue == PSEUDO_EOF) break; 
+				out.writeBits(1, current.myValue);
+				current = root; 
+			}
+			else {
+				out.writeBits(0, current.myValue);
+				writeHeader(root.myLeft,out);
+				writeHeader(root.myRight,out); 
+			}
+		} 
 	}
 /*
  * Write the magic number and the 
  * tree to the beginning/header of the compressed
  */
 	private void writeCompressedBits(String[] codings, BitInputStream in, BitOutputStream out) {
-		// TODO Auto-generated method stub
-		
+		for (int i=0; i<codings.length; i++) {
+			String code = codings[i]; 
+			out.writeBits(code.length(), Integer.parseInt(code,2));
+		}
+		String code = codings[PSEUDO_EOF];
+		out.writeBits(code.length(), Integer.parseInt(code,2));
 	}
 /*
  * Create Huffman trie/tree used to create encodings
