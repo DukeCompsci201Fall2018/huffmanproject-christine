@@ -75,12 +75,10 @@ public class HuffProcessor {
 /*
  * Writing the Tree
  */
-	private void writeHeader(HuffNode root, BitOutputStream out) {
-		HuffNode current = root;  
+	private void writeHeader(HuffNode root, BitOutputStream out) { 
 			if (root.myLeft == null && root.myRight == null) { 
 				out.writeBits(1, 1);
-				out.writeBits(BITS_PER_WORD, current.myValue);
-				current = root; 
+				out.writeBits(BITS_PER_WORD+1, root.myValue); 
 			}
 			else {
 				out.writeBits(1,0);
@@ -94,9 +92,6 @@ public class HuffProcessor {
  */
 	private void writeCompressedBits(String[] codings, BitInputStream in, BitOutputStream out) {
 		int bits;
-		bits = in.readBits(PSEUDO_EOF);
-		String c = codings[bits];
-		out.writeBits(c.length(), Integer.parseInt(c,2));
 		while (true) {
 			bits = in.readBits(BITS_PER_WORD);
 			if (bits == -1) break;  
