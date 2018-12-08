@@ -62,6 +62,7 @@ public class HuffProcessor {
 	}
 
 	private void codingHelper(HuffNode root, String string, String[] encodings) {
+		if (root == null) return;
 		if (root.myLeft == null && root.myRight == null) {
 			encodings[root.myValue] = string;
 			return;
@@ -112,7 +113,7 @@ public class HuffProcessor {
 		while (pq.size() > 1) {
 			HuffNode left = pq.remove();
 			HuffNode right = pq.remove();
-			HuffNode t = new HuffNode(0, left.myWeight+right.myWeight,pq.remove(),pq.remove());
+			HuffNode t = new HuffNode(0, left.myWeight+right.myWeight,left,right);
 			pq.add(t);
 		}
 		HuffNode root = pq.remove();
