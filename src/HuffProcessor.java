@@ -76,11 +76,8 @@ public class HuffProcessor {
  * Writing the Tree
  */
 	private void writeHeader(HuffNode root, BitOutputStream out) {
-		HuffNode current = root;
-		while (true) { 
-			if (root == null) break;
-			if (root.myLeft == null && root.myRight == null) {
-				if (current.myValue == PSEUDO_EOF) break; 
+		HuffNode current = root;  
+			if (root.myLeft == null && root.myRight == null) { 
 				out.writeBits(1, 1 +current.myValue);
 				current = root; 
 			}
@@ -88,7 +85,6 @@ public class HuffProcessor {
 				out.writeBits(1,0);
 				writeHeader(root.myLeft,out);
 				writeHeader(root.myRight,out); 
-			}
 		} 
 	}
 /*
@@ -109,7 +105,7 @@ public class HuffProcessor {
 	private HuffNode makeTreeFromCounts(int[] counts) {
 		PriorityQueue<HuffNode> pq = new PriorityQueue<>();
 		for (int i=0; i<counts.length;i++) {
-			if (counts[i] > 0 || counts[i] == PSEUDO_EOF) pq.add(new HuffNode(i, counts[i], null, null));
+			if (counts[i] > 0) pq.add(new HuffNode(i, counts[i], null, null));
 		}
 		while (pq.size() > 1) {
 			HuffNode left = pq.remove();
